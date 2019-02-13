@@ -332,7 +332,7 @@ function naiveLargeMedian(file, memSize = DEFAULT_MEMSIZE) {
         read(file, size / 2 - 1, 0, 2);
         result = (MEMORY[0] + MEMORY[1]) / 2;
     } else {
-        read(file, size / 2 - 1, 0, 1);
+        read(file, (size - 1) / 2, 0, 1);
         result = MEMORY[0];
     }
     free(0);
