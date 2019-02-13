@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <script src="big-median.js"></script>
+        <script language="javascript">
+function generateAndRun() {
+    const memsizeInput = document.getElementById('memsize');
+    const filesizeInput = document.getElementById('filesize');
+    const minInput = document.getElementById('min');
+    const maxInput = document.getElementById('max');
+    const result = document.getElementById('result');
+
+    let memsize = parseInt(memsizeInput.value, 10);
+    memsize = Math.pow(2, Math.floor(Math.log2(memsize)));
+    memsizeInput.value = memsize;
+    const filesize = parseInt(filesizeInput.value, 10);
+    const min = parseInt(minInput.value, 10);
+    const max = parseInt(maxInput.value, 10);
+    const file = [...new Array(filesize).keys()].map(i => parseInt(Math.random() * (max - min + 1) + min));
+    const originalFile = file.slice();
+    const actualSort = originalFile.sort((a, b) => a - b);
+
+    result.innerHTML = naiveLargeMedian(file, memsize);
+    console.log('ORIGINAL FILE:', originalFile);
+    console.log('REAL. SORTED FILE:', actualSort);
+    console.log('CAND. SORTED FILE:', file);
+
+    const errorAt = actualSort.map((e, i) => file[i] !== e).findIndex(Boolean);
+    console.log('ERROR AT:', errorAt);
+    result.innerHTML += ` (${errorAt < 0 ? 'succeeded' : ' <><><> FAILED <><><> '})`;
+    result.style.color = errorAt < 0 ? '0f0' : 'f00';
+}
+        </script>
+    </head>
+    <body>
+        <p>
+            MEMSIZE: <input id="memsize" value="32"></input><br/>
+            FILE SIZE: <input id="filesize" value="1000"></input><br/>
+            MIN: <input id="min" value="0"></input><br/>
+            MAX: <input id="max" value="1000"></input><br/>
+            RESULT: <span id="result"></span>
+        </p>
+        <p>
+            <button onclick="generateAndRun();">GO</button>
+        </p>
+    </body>
+</html>
